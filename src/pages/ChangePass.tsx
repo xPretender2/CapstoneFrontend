@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import api from '../utils/api';
 
 export default function ChangePassword() {
   const [currentPassword, setCurrentPassword] = useState('')

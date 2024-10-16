@@ -2,18 +2,6 @@
 
 import React, { useState } from 'react'
 
-// Assume this is imported from your actual API utility
-const api = {
-  post: async (url: string, data: any) => {
-    // Simulated API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { message: 'Success' } })
-      }, 1000)
-    })
-  }
-}
-
 export default function ChangePassword() {
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
@@ -21,40 +9,45 @@ export default function ChangePassword() {
   const [verificationCode, setVerificationCode] = useState('')
   const [message, setMessage] = useState('')
   const [step, setStep] = useState(1)
-
-  const handleSubmitPassword = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (newPassword !== confirmPassword) {
-      setMessage('New passwords do not match')
-      return
-    }
-
-    try {
-      const response = await api.post('/request-password-change', {
-        currentPassword,
-        newPassword
-      })
-      setMessage(response.data.message)
-      setStep(2)
-    } catch (error) {
-      setMessage('An error occurred. Please try again.')
-    }
+  interface ApiResponse {
+  data: {
+    message: string
   }
+}
+  const handleSubmitPassword = async (e: React.FormEvent) => {
+  e.preventDefault()
+
+  if (newPassword !== confirmPassword) {
+    setMessage('New passwords do not match')
+    return
+  }
+
+  try {
+    const response = await api.post('/request-password-change', {
+      currentPassword,
+      newPassword
+    }) as ApiResponse
+    setMessage(response.data.message)
+    setStep(2)
+  } catch (error) {
+    setMessage('An error occurred. Please try again.')
+  }
+}
 
   const handleSubmitVerification = async (e: React.FormEvent) => {
-    e.preventDefault()
-    try {
-      const response = await api.post('/verify-password-change', {
-        verificationCode,
-        newPassword
-      })
-      setMessage(response.data.message)
-      setStep(3)
-    } catch (error) {
-      setMessage('Invalid verification code. Please try again.')
-    }
+  e.preventDefault()
+
+  try {
+    const response = await api.post('/verify-password-change', {
+      verificationCode,
+      newPassword
+    }) as ApiResponse
+    setMessage(response.data.message)
+    setStep(3)
+  } catch (error) {
+    setMessage('Invalid verification code. Please try again.')
   }
+}
 
   return (
     <div className="min-h-screen flex items-center justify-center ">

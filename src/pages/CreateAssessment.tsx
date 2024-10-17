@@ -25,14 +25,14 @@ interface ErrorMessages {
 const questionTypes = [
   { value: 'multipleChoice', label: 'Multiple Choice' },
   { value: 'openEnded', label: 'Open Ended' },
-  { value: 'likertScale', label: 'Likert Scale' },
+  { value: 'trueOrFalse', label: 'True or False' },
 ];
 
 function Assessment() {
   const [quizTitle, setQuizTitle] = useState<string>('');
   const [generatedCode, setGeneratedCode] = useState<string>('');
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [currentQuestionType, setCurrentQuestionType] = useState<string>('');
+  const [currentQuestionType, setCurrentQuestionType] = useState<'multipleChoice' | 'openEnded' | 'trueOrFalse' | ''>('');
   const [currentQuestionText, setCurrentQuestionText] = useState<string>('');
   const [currentOptions, setCurrentOptions] = useState<string[]>(['', '', '']);
   const [currentCorrectAnswer, setCurrentCorrectAnswer] = useState<string>('');
@@ -46,7 +46,9 @@ function Assessment() {
   });
 
   const handleAddQuestion = () => {
-    if (!currentQuestionType || !currentQuestionText || (currentQuestionType === 'multipleChoice' && currentOptions.some(opt => !opt))) {
+    if (!currentQuestionType || !currentQuestionText || 
+        (currentQuestionType === 'multipleChoice' && currentOptions.some(opt => !opt)) ||
+        (currentQuestionType === 'trueOrFalse' && !currentCorrectAnswer)) {
       setMessage('Please fill out the question details and options.');
       return;
     }
@@ -55,7 +57,7 @@ function Assessment() {
       type: currentQuestionType,
       question: currentQuestionText,
       options: currentQuestionType === 'multipleChoice' ? currentOptions : undefined,
-      correctAnswer: currentQuestionType === 'multipleChoice' ? currentCorrectAnswer : undefined,
+      correctAnswer: currentQuestionType === 'trueOrFalse' ? currentCorrectAnswer : '',
     };
 
     setQuestions([...questions, newQuestion]);
@@ -126,6 +128,7 @@ function Assessment() {
     } catch (error: any) {
       setMessage(error.response?.data?.message || 'Failed to save quiz. Please try again.');
     }
+    console.log(quiz)
   };
 
   return (
@@ -140,7 +143,7 @@ function Assessment() {
           label="Quiz Title"
           value={quizTitle}
           onChange={(e) => setQuizTitle(e.target.value)}
-          margin="normal"
+          margin="dense"
           variant="outlined"
           required
           error={!!errorMessages.quizTitle}
@@ -205,7 +208,7 @@ function Assessment() {
         <Select
           fullWidth
           value={currentQuestionType}
-          onChange={(e) => setCurrentQuestionType(e.target.value)}
+          onChange={(e) => setCurrentQuestionType(e.target.value as 'multipleChoice' | 'openEnded' | 'trueOrFalse' | '')}
           displayEmpty
           margin="dense"
           variant="outlined"
@@ -218,16 +221,18 @@ function Assessment() {
           ))}
         </Select>
         {currentQuestionType && (
-          <Box sx={{ marginTop: 2 }}>
+            <Box sx={{ width: '400px', margin: '0 auto' }}>
+            {message && <Typography color="error">{message}</Typography>}
             <TextField
               fullWidth
               label="Question Text"
               value={currentQuestionText}
               onChange={(e) => setCurrentQuestionText(e.target.value)}
-              margin="normal"
+              margin="dense"
               variant="outlined"
               required
             />
+      
             {currentQuestionType === 'multipleChoice' && (
               <>
                 {currentOptions.map((option, index) => (
@@ -255,6 +260,24 @@ function Assessment() {
                   variant="outlined"
                   required
                 />
+              </>
+            )}
+      
+            {currentQuestionType === 'trueOrFalse' && (
+              <>
+                <Select
+                  fullWidth
+                  value={currentCorrectAnswer}
+                  onChange={(e) => setCurrentCorrectAnswer(e.target.value)}
+                  margin="dense"
+                  variant="outlined"
+                  displayEmpty
+                  required
+                >
+                  <MenuItem value="" disabled>Select True/False</MenuItem>
+                  <MenuItem value="True">True</MenuItem>
+                  <MenuItem value="False">False</MenuItem>
+                </Select>
               </>
             )}
             <Button

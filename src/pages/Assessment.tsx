@@ -7,8 +7,8 @@ function Quiz() {
   // Define the question interface
   interface Question {
     question: string;
-    type: 'multipleChoice' | 'openEnded';
-    options?: string[]; // Optional for open-ended questions
+    type: 'multipleChoice' | 'openEnded' | 'trueOrFalse';
+    options?: string[]; // Optional for open-ended or true/false questions
     correctAnswer?: string; // Optional, for displaying correct answers
   }
 
@@ -16,18 +16,18 @@ function Quiz() {
   const [quizzes, setQuizzes] = useState<{ _id: string; title: string; questions: Question[]; code: number }[]>([]);
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [message, setMessage] = useState<string>('');
-  const  userType  = localStorage.getItem('userType');
+  const userType = localStorage.getItem('userType');
   const location = useLocation(); 
 
   // Memoize fetchQuizzes with useCallback to avoid changing the function reference on every render
   const fetchQuizzes = useCallback(async () => {
     try {
       if (userType === 'student') {
-        const response = await api.get('/quiz'); 
-        setQuiz(response.data); 
+        const response = await api.get('/quiz');
+        setQuiz(response.data);
         setMessage(response.data.message);
       } else if (userType === 'teacher' || userType === 'admin') {
-        const response = await api.get('/teacher/quizzes'); 
+        const response = await api.get('/teacher/quizzes');
         setQuizzes(response.data);
         setMessage(response.data.message);
       }
@@ -39,7 +39,7 @@ function Quiz() {
   // Fetch quiz or quizzes from API when userType or location changes
   useEffect(() => {
     fetchQuizzes();
-  }, [fetchQuizzes, location]); // Adding fetchQuizzes and location as dependencies
+  }, [fetchQuizzes, location]);
 
   const handleAnswerChange = (questionIndex: number, answer: string) => {
     setAnswers(prevAnswers => ({
@@ -53,7 +53,6 @@ function Quiz() {
       questionId: key,
       answer: answers[parseInt(key)],
     }));
-
 
     try {
       await api.post('/answers', {
@@ -76,8 +75,9 @@ function Quiz() {
           <form>
             {quiz.questions.map((question, index) => (
               <div key={index} className="question">
-                <p>{question.question}</p>
-                {question.type === 'multipleChoice' ? (
+                <p id='question'>{question.question}</p>
+
+                {question.type === 'multipleChoice' && (
                   question.options?.map((option, i) => (
                     <label key={i}>
                       <input
@@ -90,11 +90,40 @@ function Quiz() {
                       {option}
                     </label>
                   ))
-                ) : (
+                )}
+
+                {question.type === 'openEnded' && (
                   <textarea
                     value={answers[index] ?? ''}
                     onChange={(e) => handleAnswerChange(index, e.target.value)}
                   />
+                )}
+
+                {question.type === 'trueOrFalse' && (
+                  <>
+                    <label className='input'>
+                      <input
+                      
+                        type="radio"
+                        name={`question-${index}`}
+                        value="True"
+                        checked={answers[index] === 'True'}
+                        onChange={() => handleAnswerChange(index, 'True')}
+                      />
+                      True
+                    </label>
+                    <label className='input'>
+                      <input
+                      className='input'
+                        type="radio"
+                        name={`question-${index}`}
+                        value="False"
+                        checked={answers[index] === 'False'}
+                        onChange={() => handleAnswerChange(index, 'False')}
+                      />
+                      False
+                    </label>
+                  </>
                 )}
               </div>
             ))}
@@ -104,28 +133,28 @@ function Quiz() {
         </>
       )}
 
-      {(userType === 'teacher' || userType ==="admin" )&& quizzes.length > 0 && (
+      {(userType === 'teacher' || userType === 'admin') && quizzes.length > 0 && (
         <>
           <h1>Your Quizzes</h1>
           <div className="quiz-cards">
             {quizzes.map((quiz) => (
               <div className="quiz-card">
-              <h2>{quiz.title}</h2>
-              {quiz.questions.map((question, index) => (
-                <div key={index} className="question">
-                  <p className="question-text"><strong>Question:</strong> {question.question}</p>
-                  <p><strong>Options:</strong></p>
-                  <ul className="options-list">
-                    {question.options?.map((option, i) => (
-                      <li key={i}>{option}</li>
-                    ))}
-                  </ul>
-                  <p className="correct-answer"><strong>Correct Answer:</strong> {question.correctAnswer}</p>
-                </div>
-              ))}
-            </div>
+                <h2>{quiz.title}</h2>
+                {quiz.questions.map((question, index) => (
+                  <div key={index} className="question">
+                    <p className="question-text"><strong>Question:</strong> {question.question}</p>
+                    <p><strong>Options:</strong></p>
+                    <ul className="options-list">
+                      {question.options?.map((option, i) => (
+                        <li key={i}>{option}</li>
+                      ))}
+                    </ul>
+                    <p className="correct-answer"><strong>Correct Answer:</strong> {question.correctAnswer}</p>
+                  </div>
+                ))}
+              </div>
             ))}
-          </div>  
+          </div>
           <p>{message}</p>
         </>
       )}
@@ -135,7 +164,6 @@ function Quiz() {
       )}
       {userType === null && <h2>Please log in to view quizzes.</h2>}
     </div>
-    
   );
 }
 

@@ -146,9 +146,6 @@ const Login: React.FC = () => {
                       <button className="btn mt-4" type="submit" disabled={isLocked}>Mag-login</button>
                       {message && <p className="error-message" style={{ color: 'red' }}>{message}</p>}
                     </form>
-                    <p className="mb-0 mt-4 text-center">
-                      <a href="/" className="link" onClick={() => navigate("/change-password")}>Nakalimutan ang iyong password?</a>
-                    </p>
                   </div>
                 </div>
               </div>

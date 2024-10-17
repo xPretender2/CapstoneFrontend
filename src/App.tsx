@@ -29,8 +29,6 @@ function App() {
           <Navbar />
           <main className="main-content">
             <Routes>
-            
-            <Route path="/change-password" element={<ChangePassword />} />
               <Route path="/" element={<Home />} />
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/login" element={<Login />} />
@@ -41,6 +39,7 @@ function App() {
                 element={<UserTypeSelection />}
               />
               <Route element={<ProtectedRoute />}>
+              <Route path="/change-password" element={<ChangePassword />} />
                 <Route path="/my-account" element={<MyAccount />} />
                 <Route path="/play" element={<Play />} />
                 <Route path="/learn" element={<Learn />} />

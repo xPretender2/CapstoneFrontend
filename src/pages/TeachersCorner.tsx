@@ -49,8 +49,9 @@ function TeachersCorner() {
         <div className="card">
           <h2 className="title">Pagsusulit</h2>
           <img
-            src="https://placehold.co/600x400"
-            alt="Storytelling"
+            src="Matuto.webp"
+            alt="Pagsusulit"
+            style={{ width: "90%" }}
             className="card-image"
           />
           <p className="description">
@@ -64,9 +65,10 @@ function TeachersCorner() {
         <div className="card">
           <h2 className="title">Storytelling Animations</h2>
           <img
-            src="https://placehold.co/600x400"
+            src="Storytelling.webp"
             alt="Storytelling"
             className="card-image"
+            style={{ width: "90%" }}
           />
           <p className="description">
             Panuorin or I-download ang mga animation ng mga alamat.
@@ -77,9 +79,10 @@ function TeachersCorner() {
         <div className="card">
           <h2 className="title">Gumawa ng Class Code</h2>
           <img
-            src="https://placehold.co/600x400"
+            src="Code.webp"
             alt="Original Sources"
             className="card-image"
+            style={{ width: "90%" }}
           />
           <p className="description">
             Gumawa ng class code para sa iyong mga estudyante.

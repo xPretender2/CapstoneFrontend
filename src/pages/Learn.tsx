@@ -6,99 +6,6 @@ function Learn() {
         <h1 className="title">Matuto</h1>
         <br></br>
         <br></br>
-        {/* <div className="three-sections">
-          <section>
-            <div className="row">
-              <div className="col">
-                <h1 className="title">Alamat ng Apoy</h1>
-                <img
-                  src="https://placehold.co/600x400"
-                  alt="Image"
-                  style={{ width: "80%" }}
-                />
-                <p className="description">
-                  <br></br>
-                  Alamin kung paano nakuha ni Lam-Ang ang apoy mula sa
-                mga higanteng nagbabantay!
-                  <br></br>
-                  <br></br>
-                  <br></br>
-                  <br></br>
-                </p>
-                <button
-                  style={{
-                    backgroundColor: "hsl(28, 88%, 62%)",
-                    color: "black",
-                    fontFamily:'KG Miss Kindergarten',
-                    fontSize:"1.2rem",
-                    marginTop:"10px"
-                  }}
-                >
-                  Basahin ang Alamat ng Apoy
-                </button>
-              </div>
-            </div>
-          </section>
-          <section>
-            <div className="row">
-              <div className="col">
-                <h1 className="title">Alamat ng Bakunawa</h1>
-                <img
-                  src="https://placehold.co/600x400"
-                  alt="Image"
-                  style={{ width: "80%" }}
-                />
-                <p className="description">
-                  <br></br>
-                  Alamin ang kapana-panabik na kwento ng Bakunawa, ang
-                higanteng ahas na walang katapusan ang gutom at naisip na kainin
-                ang buwan!
-                  <br></br>
-                </p>
-                <button
-                  style={{
-                    backgroundColor: "hsl(28, 88%, 62%)",
-                    color: "black",
-                    fontFamily:'KG Miss Kindergarten',
-                    fontSize:"1.2rem"
-                  }}
-                >
-                  Basahin ang Alamat ng Bakunawa
-                </button>
-              </div>
-            </div>
-          </section>
-          <section>
-            <div className="row">
-              <div className="col">
-                <h1 className="title">Alamat ng Mangga</h1>
-                <img
-                  src="https://placehold.co/600x400"
-                  alt="Image"
-                  style={{ width: "80%" }}
-                />
-                <p className="description">
-                  <br></br>
-                  Sundan ang kwento ng kawal at kanyang asawa sa kanilang
-                paglalakbay upang makuha ang Mangga.
-                  <br></br>
-                  <br></br>
-                  <br></br>
-                </p>
-                <button
-                  style={{
-                    backgroundColor: "hsl(28, 88%, 62%)",
-                    color: "black",
-                    fontFamily:'KG Miss Kindergarten',
-                    fontSize:"1.2rem"
-                  }}
-                >
-                  Basahin ang Alamat ng Mangga
-                </button>
-              </div>
-            </div>
-          </section>
-        </div> */}
         <div id="spacerDiv"></div>
         <div id="full-width">
           <div className="row">
@@ -133,15 +40,6 @@ function Learn() {
                 <br></br>
                 <br></br>
               </p>
-              <button id="button"
-                style={{
-                  backgroundColor: "hsl(28, 88%, 62%)",
-                  color: "black",
-                  fontSize:"1.5rem"
-                }}
-              >
-                Alamin
-              </button>
             </div>
           </div>
         </div>
@@ -181,15 +79,6 @@ function Learn() {
                 <br></br>
                 <br></br>
               </p>
-              <button id="button"
-                style={{
-                  backgroundColor: "hsl(28, 88%, 62%)",
-                  color: "black",
-                  fontSize:"1.5rem"
-                }}
-              >
-                Alamin
-              </button>
             </div>
           </div>
         </div>
@@ -227,15 +116,6 @@ function Learn() {
                 <br></br>
                 <br></br>
               </p>
-              <button id="button"
-                style={{
-                  backgroundColor: "hsl(28, 88%, 62%)",
-                  color: "black",
-                  fontSize:"1.5rem"
-                }}
-              >
-                Alamin
-              </button>
             </div>
           </div>
         </div>
